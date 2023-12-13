@@ -29,7 +29,7 @@ pipeline {
     stage('Build & Tag & Push Docker Image') {
       steps {
         container('kaniko') {
-          sh 'executor --context=dir://$WORKSPACE --destination=c1t1d0d7/myhello:$BUILD_NUMBER --destination=c1t1d0d7/myhello:latest'
+          sh 'executor --context=dir://$WORKSPACE --destination=c1t1d0s7/myhello:$BUILD_NUMBER --destination=c1t1d0s7/myhello:latest'
         }
       }
     }

@@ -11,7 +11,7 @@ pipeline {
     stage('Checkout') {
       steps {
         container('maven') {
-          git branch: 'main', url: 'https://github.com/c1t1d0s7/test-maven-java-spring-hello-webapp'
+          git branch: 'main', url: 'https://github.com/PassionOfStudy/test-maven-java-spring-hello-webapp.git'
         }
       }
     }
@@ -32,18 +32,18 @@ pipeline {
     stage('Build & Tag & Push Docker Image') {
       steps {
         container('kaniko') {
-          sh 'executor --context=dir://$WORKSPACE --destination=c1t1d0s7/myhello:$BUILD_NUMBER --destination=c1t1d0s7/myhello:latest'
+          sh 'executor --context=dir://$WORKSPACE --destination=epocle/myhello:$BUILD_NUMBER --destination=epocle/myhello:latest'
         }
       }
     }
     stage('Update K8s Manifests & Push') {
       environment {
-        githubUser = 'Jang' //Ryan Jang
-        githubEmail = 'c1t1d0s7@example.com' //c1t1d0s7@example.com
-        githubId = 'c1t1d0s7' //c1t1d0s7 
+        githubUser = 'PassionOfStudy' //Ryan Jang
+        githubEmail = 'PassionOfStudy@example.com' //c1t1d0s7@example.com
+        githubId = 'PassionOfStudy' //c1t1d0s7 
         githubRepo = 'jenkins-k8s-argo' //jenkins-kube-deploy
         githubURL = "https://github.com/${githubId}/${githubRepo}.git"
-        dockerhubId = 'c1t1d0s7' //c1t1d0s7
+        dockerhubId = 'epocle' //c1t1d0s7
         dockerhubRepo = 'myhello' //hello-world
       }
       steps {

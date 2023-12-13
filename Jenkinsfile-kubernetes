@@ -1,0 +1,37 @@
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile "jenkins-agent-pod.yaml"
+    }
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        container('maven') {
+          git branch: 'main', url: 'https://github.com/c1t1d0s7/test-maven-java-spring-hello-webapp'
+        }
+      }
+    }
+    stage('Build') {
+      steps {
+        container('maven') {
+          sh 'mvn clean package -DskipTests=true'
+        }
+      }
+    }
+    stage('Test') {
+      steps {
+        container('maven') {
+          sh 'mvn test'
+        }
+      }
+    }
+    stage('Build & Tag & Push Docker Image') {
+      steps {
+        container('kaniko') {
+          sh 'executor --context=dir://$WORKSPACE --destination=c1t1d0d7/myhello:$BUILD_NUMBER --destination=c1t1d0d7/myhello:latest'
+        }
+      }
+    }
+  }
+}

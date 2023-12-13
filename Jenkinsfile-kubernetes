@@ -4,7 +4,9 @@ pipeline {
       yamlFile "jenkins-agent-pod.yaml"
     }
   }
-  triggers { githubPush() }
+  triggers { 
+    pollSCM('* * * * *') 
+  }
   stages {
     stage('Checkout') {
       steps {
